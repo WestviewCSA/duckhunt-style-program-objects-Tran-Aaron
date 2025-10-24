@@ -1,26 +1,14 @@
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Image;
-import java.awt.Rectangle;
 import java.awt.Toolkit;
 import java.awt.geom.AffineTransform;
 import java.net.URL;
-import java.awt.Color;
-import java.awt.Image;
-import java.awt.Dimension;
-import java.awt.Font;
-
 
 // The Duck class represents a picture of a duck that can be drawn on the screen.
-public class Duck {
+public class cursor {
     // Instance variables (data that belongs to each Duck object)
     private Image img;               // Stores the picture of the duck
-    
-    private Image normal;
-    private Image Ascension;
-    
-    
-    
     private AffineTransform tx;      // Used to move (translate) and resize (scale) the image
 
     // Variables to control the size (scale) of the duck image
@@ -29,43 +17,33 @@ public class Duck {
 
     // Variables to control the location (x and y position) of the duck
     private double x;                
-    private double y;    
-    private double yStart;
+    private double y;        
     
     //variables for speed
     private int vx;
     private int vy;
-    
-    //debug var
-    public boolean debugging = true;
 
-    //big ascension
-    private boolean hit = false;
-    private int womboCombo = 0;
-    public String comboString = "0";
-    
-    
     // Constructor: runs when you make a new Duck object
-    public Duck() {
-        normal = getImage("/imgs/bagel.png"); // Load the image file
-        Ascension = getImage("/imgs/ascendedBagel.png");
+    public cursor() {
+        img = getImage("/imgs/Big Tree Fix.gif"); // Load the image file
         
-        img = normal;
         tx = AffineTransform.getTranslateInstance(0, 0); // Start with image at (0,0)
         
         // Default values
-        scaleX = 1.0;
-        scaleY = 1.0;
-        x = 500;
-        y = 600;
+        scaleX = 3.0;
+        scaleY = 3.0;
+        x = -40;
+        y = 235;
 
         init(x, y); // Set up the starting location and size
-        vx = 5;
-        vy = 0;
+        
+        //init vx vy
+        vx = 20;
+        vy = 5;
     }
     
     //2nd constructor to initialize location and scale!
-    public Duck(int x, int y, int scaleX, int scaleY) {
+    public cursor(int x, int y, int scaleX, int scaleY) {
     	this();
     	this.x 		= x;
     	this.y 		= y;
@@ -75,7 +53,7 @@ public class Duck {
     }
     
     //2nd constructor to initialize location and scale!
-    public Duck(int x, int y, int scaleX, int scaleY, int vx, int vy) {
+    public cursor(int x, int y, int scaleX, int scaleY, int vx, int vy) {
     	this();
     	this.x 		= x;
     	this.y 		= y;
@@ -100,32 +78,10 @@ public class Duck {
     
     //update any variables for the object such as x, y, vx, vy
     public void update() {
-    	if (vy != 9) {
-    	y = 200*Math.cos((x-yStart)*3.14159265859/500) + 500;
-    	if (y<0) {
-    	vy *= -1;
+    	x = x + vx;
+    	if(x > 1080) {
+    		x = -280;
     	}
-    	x +=10;
-    	}
-    	else {
-    		y = y - vy;
-    	}
-    	if (y<-50) {
-    	x = Math.random() * 270 + 270;
-        yStart = x;	
-    	hit = false;
-    	vy = 0;
-    	img = normal;
-    	womboCombo += 1;
-    	comboString = "" + womboCombo;
-    	}
-    	if (x > 1080) {
-    	x = Math.random() * 270 + 270;
-    	yStart = x;	
-    	comboString = "0";
-    	womboCombo = 0;
-    	}
-    	//System.out.println(bxllxts);
     }
     
     
@@ -136,15 +92,6 @@ public class Duck {
         g2.drawImage(img, tx, null);      // Actually draw the duck image
         update();
         init(x,y);
-        if (debugging == true) {
-        g.setColor(Color.green);
-        g.drawRect((int) x, (int) y, 100, 100);
-        }
-       // if (hit == true) {
-        //	System.out.println("aaaaaaaaaaaaaaaaa");
-        //}
-        g.setFont(new Font("Verdana", Font.PLAIN, 50));
-        g2.drawString("x" + comboString, 170, 550);
     }
     
     // Setup method: places the duck at (a, b) and scales it
@@ -157,7 +104,7 @@ public class Duck {
     private Image getImage(String path) {
         Image tempImage = null;
         try {
-            URL imageURL = Duck.class.getResource(path);
+            URL imageURL = cursor.class.getResource(path);
             tempImage = Toolkit.getDefaultToolkit().getImage(imageURL);
         } catch (Exception e) {
             e.printStackTrace();
@@ -178,24 +125,4 @@ public class Duck {
         y = newY;
         init(x, y);  // Keep current scale
     }
-    
-    public boolean checkCollision(int mX, int mY) {
-    	Rectangle mouse = new Rectangle(mX, mY, 50, 50);
-    	
-    	Rectangle thisObject = new Rectangle((int) x,(int) y, 100, 100);
-    	int bxllxts = 3;
-    	if(mouse.intersects(thisObject) && bxllxts > 0) {
-    		hit = true;
-    		vx = 0;
-    		vy = 9;
-    		img = Ascension;
-    		bxllxts -= 1;
-    	return true;	
-    	}
-    	else { 
-    		bxllxts -= 1;
-    		return false;
-    	}
-    }
-    
 }

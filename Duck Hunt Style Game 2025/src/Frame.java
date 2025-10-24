@@ -1,7 +1,10 @@
 import java.awt.Color;
+import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.GridLayout;
+import java.awt.Image;
+import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
@@ -12,28 +15,61 @@ import java.awt.event.MouseListener;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.Timer;
+import java.awt.Toolkit;
 
 public class Frame extends JPanel implements ActionListener, MouseListener, KeyListener {
 	
 	//frame size
-	private int screenWidth = 900, screenHeight = 600;
-	private String title = "Duck Hunt";
+	private int screenWidth = 1080, screenHeight = 1080;
+	private String title = "Big Bagel Hunt";
+	
 	
 	
 	/**
 	 * Declare and instantiate (create) your objects here
 	 */
 	private Duck duckObject = new Duck();
+	private Background myBackground = new Background();
+	private Background2 mySecondBackground = new Background2();
+	private Bush myBush = new Bush();
+	private Bush2 mySecondBush = new Bush2();
+	private Bush3 myThirdBush = new Bush3();
+	private RightHanded myRightHand = new RightHanded();
+	private LeftHanded myLeftHand = new LeftHanded();
+	private Tree myTree = new Tree();
+	private Dirt myDirt = new Dirt();
+	private HUD bigHUD = new HUD();
+	//private MyCursor myCursor = new MyCursor();
 	
 	public void paint(Graphics pen) {
 		
 		//this line of code is to force redraw the entire frame
 		super.paintComponent(pen);
 		
+		
+		//background should be drawn before objects
+		// or based on layer
+		myBackground.paint(pen);
+		mySecondBackground.paint(pen);
+		
+		myTree.paint(pen);
+		duckObject.paint(pen);
+		myRightHand.paint(pen);
+		myLeftHand.paint(pen);
+		//myBush.paint(pen);
+		myDirt.paint(pen);
+		
+		mySecondBush.paint(pen);
+		myThirdBush.paint(pen);
+		
+		bigHUD.paint(pen);
+		
+		//myCursor.paint(pen);
+		
 		//call paint for the object
 		//for objects, you call methods on them using the dot operator
 		//methods use always involve parenthesis
-		duckObject.paint(pen);
+		
 		
 		
 		
@@ -62,6 +98,8 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 	public void mousePressed(MouseEvent mouse) {
 	    // Runs when a mouse button is pressed down.
 	    // Example: You could start dragging an object here.
+		System.out.println(mouse.getX()+":"+mouse.getY());
+		duckObject.checkCollision(mouse.getX(), mouse.getY());
 	}
 
 	@Override
@@ -78,7 +116,6 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 	public void keyPressed(KeyEvent key) {
 		
 		System.out.println("from keyPressed method:"+key.getKeyCode());
-		
 	}
 
 	/*
@@ -131,6 +168,11 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 		t.start();
 		f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		f.setVisible(true);
+		
+		Toolkit toolkit = Toolkit.getDefaultToolkit();
+		Image image = toolkit.getImage("cursor.png");
+		Cursor a = toolkit.createCustomCursor(image,new Point(this.getX(),this.getY()), "");
+		this.setCursor (a);
 	}
 
 }
