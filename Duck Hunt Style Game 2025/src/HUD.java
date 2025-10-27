@@ -35,9 +35,11 @@ public class HUD {
     // Constructor: runs when you make a new Duck object
     public HUD() {
         threeBxllxts = getImage("/imgs/duckhuntui03.png"); // Load the image file
-        twoBxllxts = getImage("/imgs/duckhuntui02.png");
-        yiBxllxts = getImage("/imgs/duckhuntui01.png");
-        bxllxtlxss = getImage("/imgs/duckhuntui.png");	
+        //twoBxllxts = getImage("/imgs/duckhuntui02.png");
+        //yiBxllxts = getImage("/imgs/duckhuntui01.png");
+        //bxllxtlxss = getImage("/imgs/duckhuntui.png");	
+        
+        img = threeBxllxts;
       
         tx = AffineTransform.getTranslateInstance(0, 0); // Start with image at (0,0)
         
@@ -86,27 +88,27 @@ public class HUD {
     
     //update any variables for the object such as x, y, vx, vy
     public void update() {
-    	if (bxllxtsAmount.bxllxts != 0) {
-    		bxllxtsCount = bxllxtsAmount.bxllxts;
-    		System.out.println(bxllxtsCount);
-    	}
-    	
-    	if (bxllxtsCount == 3) {
-    		//System.out.println("bane03");
-    		img = threeBxllxts;
-    	}
-    	if (bxllxtsCount == 2) {
-    		//System.out.println("bane02");
-    		img = twoBxllxts;
-    	}
-    	if (bxllxtsCount == 1) {
-    		//System.out.println("bane01");
-    		img = yiBxllxts;
-    	}
-    	if (bxllxtsCount <= 0) {
-    		//System.out.println("bane");
-    		img = bxllxtlxss;
-    	}
+   // if (bxllxtsAmount.bxllxts != 0) {
+   // 		bxllxtsCount = bxllxtsAmount.bxllxts;
+   // 		System.out.println(bxllxtsCount);
+   // 	}
+   // 	
+   // 	if (bxllxtsCount == 3) {
+   // 		System.out.println("bane03");
+   // 		img = threeBxllxts;
+   // 	}
+   // 	if (bxllxtsCount == 2) {
+   // 		System.out.println("bane02");
+   // 		img = twoBxllxts;
+   // 	}
+   // 	if (bxllxtsCount == 1) {
+   // 		System.out.println("bane01");
+   // 		img = yiBxllxts;
+   // 	}
+   // 	if (bxllxtsCount <= 0) {
+   //		System.out.println("bane");
+   // 		img = bxllxtlxss;
+   // 	}
     	
     }
     

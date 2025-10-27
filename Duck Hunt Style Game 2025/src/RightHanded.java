@@ -22,6 +22,8 @@ public class RightHanded {
     //variables for speed
     private int vx;
     private int vy;
+    
+    Duck rightHandRise = new Duck();
 
     // Constructor: runs when you make a new Duck object
     public RightHanded() {
@@ -77,6 +79,7 @@ public class RightHanded {
     	if (y>410) {
     		y -= 1;
     	}
+  x = rightHandRise.xVal;
     }
     
     

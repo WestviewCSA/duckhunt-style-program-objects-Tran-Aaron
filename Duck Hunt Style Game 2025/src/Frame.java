@@ -39,6 +39,8 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 	private Tree myTree = new Tree();
 	private Dirt myDirt = new Dirt();
 	private HUD bigHUD = new HUD();
+	
+	Music mouseClickSound = new Music("sfx_wpn_laser9.wav", false);
 	//private MyCursor myCursor = new MyCursor();
 	
 	public void paint(Graphics pen) {
@@ -100,6 +102,8 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 	    // Example: You could start dragging an object here.
 		System.out.println(mouse.getX()+":"+mouse.getY());
 		duckObject.checkCollision(mouse.getX(), mouse.getY());
+		
+		this.mouseClickSound.play();
 	}
 
 	@Override

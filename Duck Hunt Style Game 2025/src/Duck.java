@@ -32,18 +32,22 @@ public class Duck {
     private double y;    
     private double yStart;
     
+    //store new X
+    public int xVal;
+    
     //variables for speed
     private int vx;
     private int vy;
     
     //debug var
     public boolean debugging = true;
-
+    public int bxllxts;
+    
     //big ascension
-    private boolean hit = false;
+    public boolean hit;
     private int womboCombo = 0;
     public String comboString = "0";
-    
+    private int score = 0;
     
     // Constructor: runs when you make a new Duck object
     public Duck() {
@@ -59,6 +63,9 @@ public class Duck {
         x = 500;
         y = 600;
 
+        	
+        
+        
         init(x, y); // Set up the starting location and size
         vx = 5;
         vy = 0;
@@ -100,26 +107,28 @@ public class Duck {
     
     //update any variables for the object such as x, y, vx, vy
     public void update() {
+    	hit = false;
     	if (vy != 9) {
-    	y = 200*Math.cos((x-yStart)*3.14159265859/500) + 500;
-    	if (y<0) {
-    	vy *= -1;
-    	}
-    	x +=10;
+    	y = Math.abs(200*Math.cos((x-yStart)*3.14159265859/500) + 500);
+    		if (x >= 500) {
+    			x +=10;
+    		}
+    		if (x < 500) {
+    			x -=10;
+    		}
     	}
     	else {
     		y = y - vy;
     	}
     	if (y<-50) {
-    	x = Math.random() * 270 + 270;
+    	x = Math.random() * 270 + 365;
         yStart = x;	
     	hit = false;
     	vy = 0;
     	img = normal;
-    	womboCombo += 1;
     	comboString = "" + womboCombo;
     	}
-    	if (x > 1080) {
+    	if (x > 1080 | x < -20) {
     	x = Math.random() * 270 + 270;
     	yStart = x;	
     	comboString = "0";
@@ -145,6 +154,7 @@ public class Duck {
         //}
         g.setFont(new Font("Verdana", Font.PLAIN, 50));
         g2.drawString("x" + comboString, 170, 550);
+        g2.drawString("" + score, 250, 550);
     }
     
     // Setup method: places the duck at (a, b) and scales it
@@ -183,17 +193,20 @@ public class Duck {
     	Rectangle mouse = new Rectangle(mX, mY, 50, 50);
     	
     	Rectangle thisObject = new Rectangle((int) x,(int) y, 100, 100);
-    	int bxllxts = 3;
-    	if(mouse.intersects(thisObject) && bxllxts > 0) {
+    	
+    	if(mouse.intersects(thisObject)) {
     		hit = true;
     		vx = 0;
     		vy = 9;
     		img = Ascension;
-    		bxllxts -= 1;
+    	//	bxllxts -= 1;
+    		womboCombo += 1;
+    		score = womboCombo * 15 + score;
+    		xVal = (int) x;
     	return true;	
     	}
     	else { 
-    		bxllxts -= 1;
+    //		bxllxts -= 1;
     		return false;
     	}
     }
