@@ -9,21 +9,21 @@ import java.net.URL;
 public class RightHanded {
     // Instance variables (data that belongs to each Duck object)
     private Image img;               // Stores the picture of the duck
-    private AffineTransform tx;      // Used to move (translate) and resize (scale) the image
 
     // Variables to control the size (scale) of the duck image
     private double scaleX;           
-    private double scaleY;           
-
-    // Variables to control the location (x and y position) of the duck
-    private double x;                
-    private double y;        
+    private double scaleY;              
     
     //variables for speed
     private int vx;
     private int vy;
     
-    Duck rightHandRise = new Duck();
+  //spawn hands
+    private static double x;                
+    private static double y;        
+    private static Boolean riseState = false;
+    private static AffineTransform tx;
+    
 
     // Constructor: runs when you make a new Duck object
     public RightHanded() {
@@ -34,8 +34,8 @@ public class RightHanded {
         // Default values
         scaleX = 1.0;
         scaleY = 1.0;
-        x = 463;
-        y = 500;
+        x = -200;
+        y = 200;
    
         init(x, y); // Set up the starting location and size
     }
@@ -62,6 +62,8 @@ public class RightHanded {
     	init(x,y);
     }
     
+   
+    
     public void setVelocityVariables(int vx, int vy) {
     	this.vx = vx;
     	this.vy = vy;
@@ -76,10 +78,13 @@ public class RightHanded {
     
     //update any variables for the object such as x, y, vx, vy
     public void update() {
-    	if (y>410) {
-    		y -= 1;
+    	if (riseState == true) {
+    		y -=9;
     	}
-  x = rightHandRise.xVal;
+    	if (y<-200) {
+    		riseState = false;
+    	}
+  //System.out.println(x);
     }
     
     
@@ -117,6 +122,14 @@ public class RightHanded {
         init(x, y);  // Keep current location
     }
 
+    public static void spawnHands() {
+    	riseState = true;
+    	x = Duck.ascendX;
+    	y = Duck.ascendY;
+    	tx.setToTranslation(x, y);
+    	System.out.println((int) Duck.ascendX);
+    }
+    
     // NEW: Method to set location
     public void setLocation(double newX, double newY) {
         x = newX;

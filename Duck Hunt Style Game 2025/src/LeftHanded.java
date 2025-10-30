@@ -9,15 +9,16 @@ import java.net.URL;
 public class LeftHanded {
     // Instance variables (data that belongs to each Duck object)
     private Image img;               // Stores the picture of the duck
-    private AffineTransform tx;      // Used to move (translate) and resize (scale) the image
 
     // Variables to control the size (scale) of the duck image
     private double scaleX;           
     private double scaleY;           
 
     // Variables to control the location (x and y position) of the duck
-    private double x;                
-    private double y;        
+    private static double x;                
+    private static double y;        
+    private static Boolean riseState = false;
+    private static AffineTransform tx;    
     
     //variables for speed
     private int vx;
@@ -32,7 +33,7 @@ public class LeftHanded {
         // Default values
         scaleX = 1.0;
         scaleY = 1.0;
-        x = 353;
+        x = -200;
         y = 500;
 
         init(x, y); // Set up the starting location and size
@@ -74,8 +75,11 @@ public class LeftHanded {
     
     //update any variables for the object such as x, y, vx, vy
     public void update() {
-    	if (y>410) {
-    		y -= 1;
+    	if (riseState == true) {
+    		y -=9;
+    	}
+    	if (y<-200) {
+    		riseState = false;
     	}
     }
     
@@ -112,6 +116,13 @@ public class LeftHanded {
         scaleX = sx;
         scaleY = sy;
         init(x, y);  // Keep current location
+    }
+    public static void spawnHands() {
+    	riseState = true;
+    	x = Duck.ascendX - 130;
+    	y = Duck.ascendY;
+    	tx.setToTranslation(x, y);
+    	System.out.println((int) Duck.ascendX);
     }
 
     // NEW: Method to set location

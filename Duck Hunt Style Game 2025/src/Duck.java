@@ -32,15 +32,19 @@ public class Duck {
     private double y;    
     private double yStart;
     
-    //store new X
-    public int xVal;
+    //waves difficulty
+    private int waveScore;
+    
+    // new X
+    public static double ascendX = 0.0;
+    public static double ascendY = 0.0;
     
     //variables for speed
     private int vx;
     private int vy;
     
     //debug var
-    public boolean debugging = true;
+    public boolean debugging = false;
     public int bxllxts;
     
     //big ascension
@@ -60,8 +64,8 @@ public class Duck {
         // Default values
         scaleX = 1.0;
         scaleY = 1.0;
-        x = 500;
-        y = 600;
+        x = 2000;
+        y = -100;
 
         	
         
@@ -107,13 +111,12 @@ public class Duck {
     
     //update any variables for the object such as x, y, vx, vy
     public void update() {
-    	hit = false;
     	if (vy != 9) {
-    	y = Math.abs(200*Math.cos((x-yStart)*3.14159265859/500) + 500);
-    		if (x >= 500) {
+    	y = Math.abs(200*Math.cos((waveScore*x-yStart)*3.1415926535859/500) + 500);
+    		if (x >= 600) {
     			x +=10;
     		}
-    		if (x < 500) {
+    		if (x < 600) {
     			x -=10;
     		}
     	}
@@ -121,7 +124,7 @@ public class Duck {
     		y = y - vy;
     	}
     	if (y<-50) {
-    	x = Math.random() * 270 + 365;
+    	x = Math.random() * 200 + 500;
         yStart = x;	
     	hit = false;
     	vy = 0;
@@ -134,10 +137,11 @@ public class Duck {
     	comboString = "0";
     	womboCombo = 0;
     	}
+    	waveScore = (int)score/300 + 1;
     	//System.out.println(bxllxts);
+    	
     }
-    
-    
+ 
     
     // Draws the duck on the screen
     public void paint(Graphics g) {
@@ -152,9 +156,12 @@ public class Duck {
        // if (hit == true) {
         //	System.out.println("aaaaaaaaaaaaaaaaa");
         //}
+        g.setColor(Color.red);
         g.setFont(new Font("Verdana", Font.PLAIN, 50));
-        g2.drawString("x" + comboString, 170, 550);
+        g2.drawString("x" + comboString, 120, 550);
         g2.drawString("" + score, 250, 550);
+        g2.drawString("Wave: " + waveScore, 570, 125);
+        g.setColor(Color.black);
     }
     
     // Setup method: places the duck at (a, b) and scales it
@@ -194,7 +201,7 @@ public class Duck {
     	
     	Rectangle thisObject = new Rectangle((int) x,(int) y, 100, 100);
     	
-    	if(mouse.intersects(thisObject)) {
+    	if(mouse.intersects(thisObject) && hit == false) {
     		hit = true;
     		vx = 0;
     		vy = 9;
@@ -202,7 +209,10 @@ public class Duck {
     	//	bxllxts -= 1;
     		womboCombo += 1;
     		score = womboCombo * 15 + score;
-    		xVal = (int) x;
+    		ascendX = x;
+    		ascendY = y;
+    		RightHanded.spawnHands();
+    		LeftHanded.spawnHands();
     	return true;	
     	}
     	else { 
